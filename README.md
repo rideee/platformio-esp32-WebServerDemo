@@ -26,6 +26,10 @@ This project demonstrates how to create a web server using the ESP32 microcontro
     ```sh
     pio run --target upload
     ```
+5. Upload the files from the `data` folder to the ESP32 SPIFFS:
+    ```sh
+    pio run --target uploadfs
+    ```
 
 ## Usage
 
