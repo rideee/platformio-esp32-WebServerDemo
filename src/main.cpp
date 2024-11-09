@@ -9,7 +9,7 @@
 #include "handlers.h"
 
 void connectToWiFi() {
-  Serial.print("\nConnecting to WiFi");
+  Serial.print("\nConnecting to WiFi ");
   WiFi.begin(ssid, password);
 
   // Blink the LED while connecting to WiFi
@@ -20,16 +20,17 @@ void connectToWiFi() {
   }
 
   // Print the IP address once connected
-  Serial.println("\nWiFi connected");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+  Serial.print(" OK\n");
+  Serial.println("IP address: " + WiFi.localIP().toString());
+  Serial.println("Hostname: " + String(hostname));
 
   // Initialize mDNS
   if (!MDNS.begin(hostname)) {
     Serial.println("Error setting up MDNS responder!");
     return;
   }
-  Serial.println("mDNS responder started");
+  Serial.println("mDNS responder started: open http://" + String(hostname) +
+                 ".local to see the website");
 }
 
 void setup() {
@@ -42,10 +43,10 @@ void setup() {
 
   // Initialize SPIFFS
   if (!SPIFFS.begin(true)) {
-    Serial.println("An error has occurred while mounting SPIFFS");
+    Serial.println("\nAn error has occurred while mounting SPIFFS");
     return;
   }
-  Serial.println("SPIFFS mounted successfully");
+  Serial.println("\nSPIFFS mounted successfully");
 
   // List all files in SPIFFS for debugging
   File root = SPIFFS.open("/");
@@ -72,7 +73,7 @@ void setup() {
 
   // Start the web server
   server.begin();
-  Serial.println("HTTP server started");
+  Serial.println("\nHTTP server started");
 }
 
 void loop() {
