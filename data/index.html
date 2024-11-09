@@ -4,13 +4,16 @@
 <head>
     <title>ESP32 Web Server</title>
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <script src="/script.js"></script>
 </head>
 
 <body>
     <h1>ESP32 WebServer DEMO</h1>
+    <p>IP: {{IP}}, hostname: {{hostname}}</p>
     <h2>LED Control</h2>
-    <button class="button" onclick="fetch('/on')">ON</button>
-    <button class="button off" onclick="fetch('/off')">OFF</button>
+    <p>LED Status: <span id="led-status">{{LED_STATUS}}</span></p>
+    <button class="button" onclick="turnOnLED()">ON</button>
+    <button class="button off" onclick="turnOffLED()">OFF</button>
 </body>
 
 </html>

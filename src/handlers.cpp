@@ -1,4 +1,3 @@
-
 #include "handlers.h"
 
 #include <Arduino.h>
@@ -22,6 +21,11 @@ void handleRoot() {
   String html = file.readString();
   file.close();
 
+  // Replace placeholders with actual values
+  html.replace("{{IP}}", WiFi.localIP().toString());
+  html.replace("{{hostname}}", hostname);
+  html.replace("{{LED_STATUS}}", ledState ? "ON" : "OFF");
+
   // Send the HTML content with a 200 OK status
   server.send(200, "text/html", html);
   Serial.println("Client handled");
@@ -43,6 +47,11 @@ void handleOff() {
   Serial.println("LED turned OFF");
 }
 
+// Function to handle the "/LEDstatus" URL
+void handleLEDStatus() {
+  server.send(200, "text/plain", ledState ? "ON" : "OFF");
+}
+
 // Function to handle the "/style.css" URL
 void handleStyle() {
   // Open the CSS file from SPIFFS
@@ -59,4 +68,22 @@ void handleStyle() {
 
   // Send the CSS content with a 200 OK status
   server.send(200, "text/css", css);
+}
+
+// Function to handle the "/script.js" URL
+void handleScript() {
+  // Open the JavaScript file from SPIFFS
+  File file = SPIFFS.open("/script.js", "r");
+  if (!file) {
+    Serial.println("Failed to open file");
+    server.send(500, "text/plain", "Failed to open file");
+    return;
+  }
+
+  // Read the file content
+  String js = file.readString();
+  file.close();
+
+  // Send the JavaScript content with a 200 OK status
+  server.send(200, "application/javascript", js);
 }

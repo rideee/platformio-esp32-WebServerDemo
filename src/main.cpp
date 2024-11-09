@@ -66,7 +66,9 @@ void setup() {
   server.on("/", handleRoot);
   server.on("/on", handleOn);
   server.on("/off", handleOff);
+  server.on("/LEDstatus", handleLEDStatus);
   server.on("/style.css", handleStyle);
+  server.on("/script.js", handleScript);
 
   // Start the web server
   server.begin();
